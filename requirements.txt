@@ -1,0 +1,8 @@
+Flask
+pymongo
+Werkzeug
+dnspython
+python-dotenv
+google-generativeai
+google-genai
+gunicorn
