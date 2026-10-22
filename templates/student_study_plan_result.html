@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Study Plan - Smart LMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            aside, header, .no-print { display: none !important; }
+            body, main { display: block !important; height: auto !important; overflow: visible !important; background: white !important; }
+            #plan-content, article { border: 0 !important; box-shadow: none !important; }
+            .print-content { padding: 0 !important; max-width: 100% !important; }
+        }
+    </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-800 flex h-screen overflow-hidden font-sans">
+    <aside class="w-64 bg-[#0b1324] text-white flex flex-col justify-between border-r border-slate-800/80 shrink-0">
+        <div>
+            <div class="p-6 flex items-center gap-3 border-b border-white/5"><div class="bg-blue-600 p-2 rounded-xl shadow-md"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zM6 12.5V17c3.5 2.5 8.5 2.5 12 0v-4.5"/></svg></div><span class="font-bold text-base tracking-wide">Smart LMS</span></div>
+            <div class="px-5 pt-5 pb-2 text-[11px] font-semibold tracking-wider text-slate-500 uppercase">Student Portal</div>
+            <nav class="px-3 space-y-1.5" aria-label="Student navigation">
+                <a href="/student/home" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 10.5L12 3l9 7.5M5.5 9.5V20h13V9.5M9 20v-6h6v6"/></svg>Dashboard</a>
+                <a href="/student/assignments" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 4h8l3 3v13H5V4h3zM14 4v4h5M8 12h8M8 16h8"/></svg>Assignments</a>
+                <a href="/student/quizzes" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 4h6M9 2h6v4H9zM6 4H4v18h16V4h-2M8 11l2 2 5-5M8 17h8"/></svg>Quizzes</a>
+                <a href="/student/marks" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 19V5m0 14h17M8 15v-4m4 4V7m4 8v-6m4 6V4"/></svg>Marks &amp; Report</a>
+                <a href="/student/prepare" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3a6 6 0 00-3.8 10.64c.8.65 1.3 1.34 1.3 2.36h5c0-1.02.5-1.71 1.3-2.36A6 6 0 0012 3zM9.5 19h5M10.5 22h3"/></svg>AI Tutor</a>
+                <a href="/student/study_plan" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition bg-[#162d50]/80 text-white border border-blue-400/20 shadow-inner"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 3h8l4 4v14H5V3h2zM14 3v5h5M8 12h8M8 16h5"/></svg>AI Study Planner</a>
+            </nav>
+        </div>
+        <div class="p-4 border-t border-white/5"><div class="bg-white/5 border border-white/10 rounded-xl p-3 flex items-center justify-between gap-3"><div class="min-w-0"><p class="text-xs font-bold truncate">{{ user }}</p><p class="text-[11px] text-blue-300">Student Account</p></div><a href="/logout" class="p-2 text-slate-400 hover:text-red-400 transition rounded-lg hover:bg-white/5" title="Logout" aria-label="Logout"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10 17l5-5-5-5M15 12H3m9-8h7a2 2 0 012 2v12a2 2 0 01-2 2h-7"/></svg></a></div></div>
+    </aside>
+    <main class="flex-1 flex flex-col h-screen overflow-y-auto min-w-0">
+        <header class="bg-white border-b border-slate-200 px-5 md:px-8 py-4 flex flex-wrap gap-3 justify-between items-center sticky top-0 z-30"><div><p class="text-xs font-bold uppercase tracking-wider text-blue-700">AI Study Planner</p><h1 class="text-lg font-bold text-slate-900 mt-0.5">Generated Study Plan</h1></div><div class="flex items-center gap-2 no-print"><a href="/student/study_plan" class="inline-flex items-center gap-2 bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 px-4 py-2 rounded-xl text-sm font-semibold transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m7 7l-7-7 7-7"/></svg>Back</a><button onclick="window.print()" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M6 9V3h12v6M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v7H6z"/></svg>Print / Save PDF</button></div></header>
+        <div class="p-5 md:p-8 max-w-5xl mx-auto w-full print-content">
+            <section class="bg-gradient-to-r from-[#0d182e] via-[#10203d] to-[#162c52] rounded-2xl p-6 md:p-8 text-white relative overflow-hidden mb-6"><div class="absolute -right-12 -top-12 w-64 h-64 bg-white/5 rounded-full pointer-events-none"></div><div class="relative z-10 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-5"><div><span class="inline-flex items-center gap-2 bg-white/10 border border-white/15 text-blue-100 font-semibold px-3 py-1.5 rounded-full text-xs">{{ duration }} Schedule</span><h2 class="text-2xl md:text-3xl font-black mt-4">Study Plan: {{ goal }}</h2><p class="text-slate-300 text-sm mt-2">Subjects: {{ course_names }}</p></div><div class="w-12 h-12 shrink-0 bg-white/10 border border-white/15 rounded-xl flex items-center justify-center"><svg class="w-6 h-6 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 3h8l4 4v14H5V3h2zM14 3v5h5M8 12h8M8 16h5"/></svg></div></div></section>
+            <article class="bg-white border border-slate-200 rounded-2xl p-5 md:p-8 shadow-sm"><div class="flex items-center gap-3 pb-4 mb-5 border-b border-slate-100"><div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 5h8M8 9h8M8 13h5M5 3h14v18H5z"/></svg></div><div><h3 class="font-bold text-slate-900">Your Personal Schedule</h3><p class="text-xs text-slate-500">Generated based on the goal and duration you selected.</p></div></div><div id="plan-content" class="text-slate-700 text-base leading-8 whitespace-pre-wrap break-words font-sans">{{ plan_text }}</div></article>
+            <p class="text-xs text-slate-400 mt-5 text-center">Smart LMS · AI-generated study plan</p>
+        </div>
+    </main>
+</body>
+</html>

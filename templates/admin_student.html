@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portfolio - {{ student.name }}</title>
+    <script src="//cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#f8fafc] text-slate-800 flex h-screen overflow-hidden font-sans">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div id="flash-popup" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-sm">
+                <div class="bg-white border border-slate-200 rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center">
+                    <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-blue-100">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    </div>
+                    {% for category, message in messages %}
+                        <h3 class="text-lg font-bold text-slate-900 mb-1">{{ message }}</h3>
+                    {% endfor %}
+                    <p class="text-slate-500 text-xs mb-6">Student grades have been updated.</p>
+                    <button onclick="document.getElementById('flash-popup').style.display='none'" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl font-semibold text-sm transition">Continue</button>
+                </div>
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- DEEP NAVY SIDEBAR WITH SVG ICONS -->
+    <div class="w-64 bg-[#0b1324] text-white flex flex-col justify-between border-r border-slate-800/80 select-none shrink-0">
+        <div>
+            <div class="p-6 flex items-center gap-3 border-b border-white/5">
+                <div class="bg-blue-600 p-2 rounded-xl shadow-md">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/></svg>
+                </div>
+                <span class="font-bold text-base tracking-wide text-white">Smart LMS</span>
+            </div>
+            <div class="px-5 pt-5 pb-2 text-[11px] font-semibold tracking-wider text-slate-500 uppercase">Admin Portal</div>
+            <nav class="px-3 space-y-1.5">
+                <a href="/admin/dashboard" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition text-slate-400 hover:text-white hover:bg-white/5">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/admin/courses" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition text-slate-400 hover:text-white hover:bg-white/5">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                    <span>Course Manager</span>
+                </a>
+                <a href="/admin/ai_quiz" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition text-slate-400 hover:text-white hover:bg-white/5">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    <span>AI Quiz Lab</span>
+                </a>
+                <a href="/admin/assignments" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition text-slate-400 hover:text-white hover:bg-white/5">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    <span>Assign Task</span>
+                </a>
+                <a href="/admin/students" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition bg-[#162d50]/80 text-white border border-blue-400/20 shadow-inner">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    <span>Student List</span>
+                </a>
+                <a href="/admin/performance" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition text-slate-400 hover:text-white hover:bg-white/5">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    <span>Student Performance</span>
+                </a>
+            </nav>
+        </div>
+        <div class="p-4 border-t border-white/5">
+            <a href="/logout" class="flex items-center justify-center gap-2 w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2.5 rounded-xl text-sm transition">Logout</a>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="flex-1 flex flex-col h-screen overflow-y-auto">
+        <div class="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center sticky top-0 z-30">
+            <div class="flex items-center gap-2 text-sm font-semibold">
+                <a href="/admin/students" class="text-slate-400 hover:text-blue-600">Student List</a>
+                <span class="text-slate-300">/</span>
+                <span class="text-slate-800">{{ student.name }}</span>
+            </div>
+            <a href="/admin/students" class="inline-flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                <span>Back to List</span>
+            </a>
+        </div>
+
+        <div class="p-8 max-w-6xl mx-auto w-full space-y-8">
+            <div class="bg-gradient-to-r from-[#0d182e] via-[#10203d] to-[#162c52] p-7 rounded-2xl text-white flex items-center gap-5 shadow-sm">
+                <div class="bg-white/10 backdrop-blur-md border border-white/15 h-16 w-16 rounded-2xl flex items-center justify-center text-2xl font-black">
+                    {{ student.name[:1] | upper }}
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold">{{ student.name }}</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5"><div class="bg-blue-50 border border-blue-100 rounded-xl p-4"><p class="text-xs font-semibold text-blue-700">Attendance</p><p class="text-2xl font-black text-blue-900">{{ attendance.percent }}%</p></div><div class="bg-emerald-50 border border-emerald-100 rounded-xl p-4"><p class="text-xs font-semibold text-emerald-700">Present dates</p><p class="text-2xl font-black text-emerald-900">{{ attendance.present_days }}</p></div><div class="bg-slate-50 border border-slate-200 rounded-xl p-4"><p class="text-xs font-semibold text-slate-600">Tracked dates</p><p class="text-2xl font-black text-slate-900">{{ attendance.active_days }}</p></div></div>
+                    <p class="text-slate-300 text-xs mt-0.5">{{ student.email }}</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Editable Quiz Scores -->
+                <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
+                    <h3 class="text-base font-bold text-slate-900 mb-4 border-b border-slate-100 pb-3">Quiz Scores (Editable)</h3>
+                    {% if quizzes %}
+                        <div class="space-y-4">
+                            {% for quiz in quizzes %}
+                            <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <span class="text-[11px] bg-blue-50 text-blue-600 border border-blue-100 font-bold px-2.5 py-0.5 rounded-full uppercase">{{ quiz.course_title }}</span>
+                                        <h4 class="font-bold text-sm mt-2 text-slate-900">{{ quiz.quiz_title }}</h4>
+                                    </div>
+                                    <span class="text-xs font-bold bg-white border border-slate-200 px-3 py-1 rounded-lg text-slate-700">Score: {{ quiz.score }} / {{ quiz.max_marks }}</span>
+                                </div>
+                                <form action="/edit_quiz_score/{{ quiz._id }}" method="POST" class="flex gap-2 mt-3 pt-3 border-t border-slate-200/70">
+                                    <input type="number" name="score" value="{{ quiz.score }}" required placeholder="Edit Score" class="flex-1 bg-white border border-slate-200 text-slate-800 px-3 py-1.5 rounded-lg outline-none text-xs font-semibold">
+                                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-lg font-semibold text-xs transition">Update</button>
+                                </form>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-slate-400 text-sm">Student has not attempted any quizzes yet.</p>
+                    {% endif %}
+                </div>
+
+                <!-- Submitted Assignments -->
+                <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
+                    <h3 class="text-base font-bold text-slate-900 mb-4 border-b border-slate-100 pb-3">Submitted Assignments</h3>
+                    {% if submissions %}
+                        <div class="space-y-4">
+                            {% for sub in submissions %}
+                            <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <span class="text-[11px] bg-blue-50 text-blue-600 border border-blue-100 font-bold px-2.5 py-0.5 rounded-full uppercase">{{ sub.course_title }}</span>
+                                        <h4 class="font-bold text-sm mt-2 text-slate-900">{{ sub.assign_title }}</h4>
+                                    </div>
+                                    <a href="/uploads/{{ sub.filename }}" target="_blank" class="inline-flex items-center gap-1 text-blue-600 font-semibold text-xs hover:underline">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                        <span>Download File</span>
+                                    </a>
+                                </div>
+                                <div class="mt-3 pt-3 border-t border-slate-200/70">
+                                    {% if sub.marks %}
+                                        <div id="grade-display-{{ loop.index0 }}" class="flex justify-between items-center">
+                                            <span class="text-xs font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-lg">Graded: {{ sub.marks }} / {{ sub.max_marks }}</span>
+                                            <button type="button" onclick="document.getElementById('grade-display-{{ loop.index0 }}').style.display='none'; document.getElementById('grade-form-{{ loop.index0 }}').style.display='flex';" class="text-xs bg-white text-slate-700 px-3 py-1 rounded-lg border border-slate-200 font-semibold">Edit Marks</button>
+                                        </div>
+                                        <form id="grade-form-{{ loop.index0 }}" style="display: none;" action="/grade_submission/{{ sub._id }}" method="POST" class="gap-2 mt-2">
+                                            <input type="number" name="marks" value="{{ sub.marks }}" required class="flex-1 bg-white border border-slate-200 text-slate-800 px-3 py-1.5 rounded-lg outline-none text-xs font-semibold">
+                                            <button type="submit" class="bg-blue-600 text-white px-4 py-1.5 rounded-lg font-semibold text-xs">Update</button>
+                                        </form>
+                                    {% else %}
+                                        <form action="/grade_submission/{{ sub._id }}" method="POST" class="flex gap-2">
+                                            <input type="number" name="marks" required placeholder="Marks out of {{ sub.max_marks }}" class="flex-1 bg-white border border-slate-200 text-slate-800 px-3 py-1.5 rounded-lg outline-none text-xs font-semibold">
+                                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-lg font-semibold text-xs transition">Save Marks</button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-slate-400 text-sm">No assignments submitted yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

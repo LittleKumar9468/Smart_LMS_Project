@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submissions - {{ assignment.title }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <nav class="bg-gray-900 text-white p-4 flex justify-between items-center shadow-lg">
+        <h1 class="text-2xl font-bold">Submissions Inbox 📥</h1>
+        <div><a href="/manage_course/{{ course._id }}" class="bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-600 transition font-bold">⬅ Back to Course</a></div>
+    </nav>
+
+    <div class="container mx-auto p-8 max-w-4xl">
+        <div class="bg-white p-8 rounded-xl shadow-lg mb-8 border-l-8 border-green-500">
+            <span class="bg-green-100 text-green-800 text-sm font-bold px-3 py-1 rounded-full mb-4 inline-block">Assignment Details</span>
+            <h2 class="text-3xl font-bold text-gray-900 mb-2">{{ assignment.title }}</h2>
+            <p class="text-gray-600 text-lg">{{ assignment.desc }}</p>
+        </div>
+
+        <h3 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">Student Uploads</h3>
+        
+        {% if submissions %}
+            <div class="space-y-4">
+                {% for sub in submissions %}
+                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 flex justify-between items-center hover:shadow-lg transition">
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-blue-100 p-3 rounded-full text-2xl">🎓</div>
+                        <div>
+                            <h4 class="font-bold text-xl text-gray-900">{{ sub.student_name }}</h4>
+                            <p class="text-md text-gray-500">{{ sub.student_email }}</p>
+                        </div>
+                    </div>
+                    <a href="/uploads/{{ sub.filename }}" target="_blank" download class="flex items-center space-x-2 bg-green-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-700 transition shadow-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                        <span>Download File</span>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="bg-white p-10 rounded-xl shadow-md text-center">
+                <span class="text-4xl block mb-4">📭</span>
+                <p class="text-gray-500 text-xl font-medium">No student has submitted this assignment yet.</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

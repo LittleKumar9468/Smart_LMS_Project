@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz - {{ quiz.quiz_title }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+    
+    <div class="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-2xl">
+        <div class="flex justify-between items-center mb-8 border-b pb-4">
+            <h2 class="text-3xl font-bold text-indigo-700">{{ quiz.quiz_title }}</h2>
+            <a href="/view_course/{{ course._id }}" class="text-gray-500 hover:text-red-500 font-bold">✖ Cancel Quiz</a>
+        </div>
+
+        <form action="/take_quiz/{{ course._id }}/{{ quiz_index }}" method="POST">
+            
+            {% for q in quiz.questions %}
+            <!-- 👈 NAYA LOGIC: Outer loop ka index humne ek variable me save kar liya -->
+            {% set q_index = loop.index0 %} 
+            
+            <div class="mb-8 p-6 bg-gray-50 rounded-lg border">
+                <h4 class="text-lg font-bold text-gray-800 mb-4">Q{{ loop.index }}. {{ q.question }}</h4>
+                
+                <div class="space-y-3 pl-4">
+                    {% for option in q.options %}
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-200 rounded transition">
+                        <!-- 👈 Yahan hum q_index use kar rahe hain -->
+                        <input type="radio" name="q_{{ q_index }}" value="{{ option }}" required class="form-radio h-5 w-5 text-indigo-600">
+                        <span class="text-gray-700 font-medium">{{ option }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="w-full bg-indigo-600 text-white text-xl font-bold py-4 rounded-xl hover:bg-indigo-700 shadow-lg transition transform hover:-translate-y-1">Submit & Check Score 🚀</button>
+        </form>
+    </div>
+
+</body>
+</html>

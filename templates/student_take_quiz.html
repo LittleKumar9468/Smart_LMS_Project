@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ quiz.quiz_title }} - Smart LMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#f8fafc] text-slate-800 flex h-screen overflow-hidden font-sans">
+    <aside class="w-64 bg-[#0b1324] text-white flex flex-col justify-between border-r border-slate-800/80 shrink-0">
+        <div>
+            <div class="p-6 flex items-center gap-3 border-b border-white/5"><div class="bg-blue-600 p-2 rounded-xl shadow-md"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zM6 12.5V17c3.5 2.5 8.5 2.5 12 0v-4.5"/></svg></div><span class="font-bold text-base tracking-wide">Smart LMS</span></div>
+            <div class="px-5 pt-5 pb-2 text-[11px] font-semibold tracking-wider text-slate-500 uppercase">Student Portal</div>
+            <nav class="px-3 space-y-1.5" aria-label="Student navigation">
+                <a href="/student/home" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 10.5L12 3l9 7.5M5.5 9.5V20h13V9.5M9 20v-6h6v6"/></svg>Dashboard</a>
+                <a href="/student/attendance" class="block px-4 py-3 rounded-xl text-sm font-semibold text-slate-400 hover:text-white hover:bg-white/5 transition">Attendance</a><a href="/student/messages" class="block px-4 py-3 rounded-xl text-sm font-semibold text-slate-400 hover:text-white hover:bg-white/5 transition">Talk to Teacher</a>
+                <a href="/student/assignments" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 4h8l3 3v13H5V4h3zM14 4v4h5M8 12h8M8 16h8"/></svg>Assignments</a>
+                <a href="/student/quizzes" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition bg-[#162d50]/80 text-white border border-blue-400/20 shadow-inner"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 4h6M9 2h6v4H9zM6 4H4v18h16V4h-2M8 11l2 2 5-5M8 17h8"/></svg>Quizzes</a>
+                <a href="/student/marks" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 19V5m0 14h17M8 15v-4m4 4V7m4 8v-6m4 6V4"/></svg>Marks &amp; Report</a>
+                <a href="/student/prepare" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3a6 6 0 00-3.8 10.64c.8.65 1.3 1.34 1.3 2.36h5c0-1.02.5-1.71 1.3-2.36A6 6 0 0012 3zM9.5 19h5M10.5 22h3"/></svg>AI Tutor</a>
+                <a href="/student/study_plan" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 3h8l4 4v14H5V3h2zM14 3v5h5M8 12h8M8 16h5"/></svg>AI Study Planner</a>
+            </nav>
+        </div>
+        <div class="p-4 border-t border-white/5"><div class="bg-white/5 border border-white/10 rounded-xl p-3 flex items-center justify-between gap-3"><div class="min-w-0"><p class="text-xs font-bold truncate">{{ user }}</p><p class="text-[11px] text-blue-300">Student Account</p></div><a href="/logout" class="p-2 text-slate-400 hover:text-red-400 transition rounded-lg hover:bg-white/5" title="Logout" aria-label="Logout"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10 17l5-5-5-5M15 12H3m9-8h7a2 2 0 012 2v12a2 2 0 01-2 2h-7"/></svg></a></div></div>
+    </aside>
+    <main class="flex-1 flex flex-col h-screen overflow-y-auto min-w-0">
+        <header class="bg-white border-b border-slate-200 px-5 md:px-8 py-4 flex flex-wrap gap-3 justify-between items-center sticky top-0 z-30"><div><p class="text-xs font-bold uppercase tracking-wider text-blue-700">Assessment</p><h1 class="text-lg font-bold text-slate-900 mt-0.5">{{ quiz.quiz_title }}</h1></div><a href="/student/quizzes" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-700 transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6l12 12M18 6L6 18"/></svg>Cancel Quiz</a></header>
+        <div class="p-5 md:p-8 max-w-4xl mx-auto w-full">
+            <section class="bg-gradient-to-r from-[#0d182e] via-[#10203d] to-[#162c52] rounded-2xl p-6 md:p-7 text-white mb-6"><div class="flex items-center gap-3"><div class="p-3 bg-white/10 rounded-xl border border-white/15"><svg class="w-6 h-6 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 4h6M9 2h6v4H9zM6 4H4v18h16V4h-2M8 11l2 2 5-5M8 17h8"/></svg></div><div><p class="text-xs font-bold uppercase tracking-wider text-blue-200">Quiz in progress</p><h2 class="text-xl font-bold mt-1">Answer every question</h2><p class="text-sm text-slate-300 mt-1">{{ quiz.questions|length }} questions · {{ quiz.total_marks if quiz.total_marks is defined else (quiz.questions|length * 2) }} total marks</p></div></div></section>
+            <form action="/student/take_quiz/{{ course_id }}/{{ quiz_index }}" method="POST" class="space-y-5">
+                {% for q in quiz.questions %}
+                {% set q_index = loop.index0 %}
+                <fieldset class="bg-white border border-slate-200 rounded-2xl p-5 md:p-6 shadow-sm">
+                    <legend class="sr-only">Question {{ loop.index }}</legend>
+                    <div class="flex gap-4"><div class="w-9 h-9 shrink-0 rounded-xl bg-blue-50 border border-blue-100 text-blue-700 font-bold flex items-center justify-center text-sm">{{ loop.index }}</div><div class="flex-1 min-w-0"><h3 class="text-base font-bold text-slate-900 leading-relaxed">{{ q.question }}</h3><div class="mt-4 space-y-3">
+                        {% for option in q.options %}
+                        <label class="flex items-start gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:border-blue-300 hover:bg-blue-50/50 transition has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50"><input type="radio" name="q_{{ q_index }}" value="{{ option }}" required class="mt-0.5 h-4 w-4 border-slate-300 text-blue-600 focus:ring-blue-600"><span class="text-sm font-medium text-slate-700">{{ option }}</span></label>
+                        {% endfor %}
+                    </div></div></div>
+                </fieldset>
+                {% endfor %}
+                <div class="sticky bottom-0 bg-[#f8fafc]/95 backdrop-blur py-4"><button type="submit" class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3.5 px-6 rounded-xl font-bold transition shadow-sm"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Submit Quiz</button><p class="text-xs text-center text-slate-500 mt-2">Please review your answers before submitting.</p></div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal - Smart LMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#f8fafc] text-slate-800 flex h-screen overflow-hidden font-sans">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div id="flash-popup" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-sm p-4">
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center">
+                <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-blue-100">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                </div>
+                {% for category, message in messages %}
+                    <h3 class="text-lg font-bold text-slate-900 mb-1">{{ message }}</h3>
+                {% endfor %}
+                <p class="text-slate-500 text-xs mb-6">Your update has been processed.</p>
+                <button type="button" onclick="document.getElementById('flash-popup').style.display='none'" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl font-semibold text-sm transition">Continue</button>
+            </div>
+        </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- STUDENT SIDEBAR: styled to match the Admin Portal -->
+    <aside class="w-64 bg-[#0b1324] text-white flex flex-col justify-between border-r border-slate-800/80 select-none shrink-0">
+        <div>
+            <div class="p-6 flex items-center gap-3 border-b border-white/5">
+                <div class="bg-blue-600 p-2 rounded-xl shadow-md">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12.5V17c3.5 2.5 8.5 2.5 12 0v-4.5"/></svg>
+                </div>
+                <span class="font-bold text-base tracking-wide text-white">Smart LMS</span>
+            </div>
+            <div class="px-5 pt-5 pb-2 text-[11px] font-semibold tracking-wider text-slate-500 uppercase">Student Portal</div>
+            <nav class="px-3 space-y-1.5" aria-label="Student navigation">
+                <a href="/student/home" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition {% if section == 'home' %}bg-[#162d50]/80 text-white border border-blue-400/20 shadow-inner{% else %}text-slate-400 hover:text-white hover:bg-white/5{% endif %}">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 10.5L12 3l9 7.5M5.5 9.5V20h13V9.5M9 20v-6h6v6"/></svg><span>Dashboard</span>
+                </a>
+                <a href="/student/attendance" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition {% if section == 'attendance' %}bg-[#162d50]/80 text-white border border-blue-400/20 shadow-inner{% else %}text-slate-400 hover:text-white hover:bg-white/5{% endif %}"><svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 2v4m8-4v4M3 10h18M5 4h14a2 2 0 012 2v13a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z"/></svg><span>Attendance</span></a>
+                <a href="/student/messages" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition {% if section == 'messages' %}bg-[#162d50]/80 text-white border border-blue-400/20 shadow-inner{% else %}text-slate-400 hover:text-white hover:bg-white/5{% endif %}"><svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8A8.5 8.5 0 018.7 3.9a8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg><span>Talk to Teacher</span></a>
+                <a href="/student/assignments" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition {% if section == 'assignments' %}bg-[#162d50]/80 text-white border border-blue-400/20 shadow-inner{% else %}text-slate-400 hover:text-white hover:bg-white/5{% endif %}">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 4h8l3 3v13H5V4h3zM14 4v4h5M8 12h8M8 16h8"/></svg><span>Assignments</span>
+                </a>
+                <a href="/student/quizzes" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition {% if section == 'quizzes' %}bg-[#162d50]/80 text-white border border-blue-400/20 shadow-inner{% else %}text-slate-400 hover:text-white hover:bg-white/5{% endif %}">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 4h6M9 2h6v4H9zM6 4H4v18h16V4h-2M8 11l2 2 5-5M8 17h8"/></svg><span>Quizzes</span>
+                </a>
+                <a href="/student/marks" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition {% if section == 'marks' %}bg-[#162d50]/80 text-white border border-blue-400/20 shadow-inner{% else %}text-slate-400 hover:text-white hover:bg-white/5{% endif %}">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 19V5m0 14h17M8 15v-4m4 4V7m4 8v-6m4 6V4"/></svg><span>Marks &amp; Report</span>
+                </a>
+                <a href="/student/prepare" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition {% if section == 'prepare' %}bg-[#162d50]/80 text-white border border-blue-400/20 shadow-inner{% else %}text-slate-400 hover:text-white hover:bg-white/5{% endif %}">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3a6 6 0 00-3.8 10.64c.8.65 1.3 1.34 1.3 2.36h5c0-1.02.5-1.71 1.3-2.36A6 6 0 0012 3zM9.5 19h5M10.5 22h3M9 9.5l2 2 4-4"/></svg><span>AI Tutor</span>
+                </a>
+                <a href="/student/study_plan" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition {% if section == 'study_plan' %}bg-[#162d50]/80 text-white border border-blue-400/20 shadow-inner{% else %}text-slate-400 hover:text-white hover:bg-white/5{% endif %}">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 3h8l4 4v14H5V3h2zM14 3v5h5M8 12h8M8 16h5"/></svg><span>AI Study Planner</span>
+                </a>
+            </nav>
+        </div>
+        <div class="p-4 border-t border-white/5 space-y-3">
+            <div class="bg-white/5 border border-white/10 rounded-xl p-3 flex items-center justify-between gap-3">
+                <div class="min-w-0">
+                    <p class="text-xs font-bold text-white truncate">{{ user }}</p>
+                    <p class="text-[11px] text-blue-300">Student Account</p>
+                </div>
+                <a href="/logout" class="p-2 text-slate-400 hover:text-red-400 transition rounded-lg hover:bg-white/5" title="Logout" aria-label="Logout">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10 17l5-5-5-5M15 12H3m9-8h7a2 2 0 012 2v12a2 2 0 01-2 2h-7"/></svg>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN LIGHT WORKSPACE: same palette and topbar as Admin Portal -->
+    <main class="flex-1 flex flex-col h-screen overflow-y-auto min-w-0">
+        <header class="bg-white border-b border-slate-200 px-5 md:px-8 py-4 flex justify-between items-center sticky top-0 z-30">
+            <div class="flex items-center gap-2 text-sm font-semibold text-slate-700 capitalize">
+                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
+                <span>{{ section.replace('_', ' ') }}</span>
+            </div>
+            <div class="flex items-center gap-2 bg-slate-50 border border-slate-200 px-3.5 py-1.5 rounded-full">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                <span class="text-xs font-bold text-slate-700 max-w-[42vw] truncate">{{ user }}</span>
+            </div>
+        </header>
+
+        <div class="p-5 md:p-8 space-y-8 max-w-7xl mx-auto w-full">
+            {% if section == 'home' %}
+            <section class="bg-gradient-to-r from-[#0d182e] via-[#10203d] to-[#162c52] rounded-2xl p-7 md:p-8 text-white relative overflow-hidden shadow-sm">
+                <div class="absolute -right-12 -top-12 w-64 h-64 bg-white/5 rounded-full pointer-events-none"></div>
+                <div class="relative z-10 flex items-center gap-4 mb-6">
+                    <div class="p-3 bg-white/10 rounded-xl border border-white/15">
+                        <svg class="w-7 h-7 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 14l9-5-9-5-9 5 9 5zM5 12v5c4 3 10 3 14 0v-5"/></svg>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-black mb-2">Welcome back, {{ user }}</h1>
+                        <p class="text-slate-300 text-sm">Continue learning, submit assignments, and track your academic progress.</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 relative z-10">
+                    <div class="bg-white/10 border border-white/15 rounded-xl p-5"><p class="text-[11px] font-semibold uppercase tracking-wider text-slate-300">Available Courses</p><h2 class="text-3xl font-black mt-1">{{ data.total_courses }}</h2><p class="text-xs text-slate-300 mt-1">Learning modules</p></div>
+                    <div class="bg-white/10 border border-white/15 rounded-xl p-5"><p class="text-[11px] font-semibold uppercase tracking-wider text-slate-300">Quiz Attempts</p><h2 class="text-3xl font-black mt-1">{{ data.quiz_attempts }}</h2><p class="text-xs text-slate-300 mt-1">Completed assessments</p></div>
+                    <div class="bg-white/10 border border-white/15 rounded-xl p-5"><p class="text-[11px] font-semibold uppercase tracking-wider text-slate-300">Assignments</p><h2 class="text-3xl font-black mt-1">{{ data.submitted_count }}</h2><p class="text-xs text-slate-300 mt-1">Submitted work</p></div>
+                    <div class="bg-white/10 border border-white/15 rounded-xl p-5"><p class="text-[11px] font-semibold uppercase tracking-wider text-slate-300">Quiz Accuracy</p><h2 class="text-3xl font-black mt-1">{{ data.accuracy }}%</h2><p class="text-xs text-slate-300 mt-1">Based on quiz marks</p></div>
+                </div>
+            </section>
+
+            <section>
+                <div class="flex items-center justify-between gap-4 mb-5">
+                    <div><h2 class="text-xl font-bold text-slate-900">Available Courses</h2><p class="text-sm text-slate-500 mt-1">Choose a course to open its chapters and assessments.</p></div>
+                    <span class="text-xs font-bold text-slate-600 bg-white border border-slate-200 px-3 py-1.5 rounded-full">{{ data.courses|length }} courses</span>
+                </div>
+                {% if data.courses %}
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {% for course in data.courses %}
+                    <article class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm flex flex-col justify-between hover:shadow-md transition">
+                        <div>
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-11 h-11 rounded-xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 5.5A2.5 2.5 0 016.5 3H20v16H6.5A2.5 2.5 0 014 16.5v-11zM4 16.5A2.5 2.5 0 016.5 14H20M8 7h8M8 10h6"/></svg>
+                                </div>
+                                <div class="min-w-0"><h3 class="font-bold text-base text-slate-900">{{ course.title }}</h3><p class="text-slate-400 text-xs mt-0.5">Course module</p></div>
+                            </div>
+                            <p class="text-slate-500 text-sm mb-5 leading-relaxed">{{ course.description }}</p>
+                            <div class="flex flex-wrap gap-2 mb-5">
+                                <span class="text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-100 px-2.5 py-1 rounded-full">{{ course.topics|length }} Chapters</span>
+                                <span class="text-xs font-semibold text-slate-600 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-full">{{ course.quizzes|length }} Quizzes</span>
+                            </div>
+                            <div class="flex items-center gap-4 mt-2 mb-5">
+                                <div class="relative w-12 h-24 rounded-b-xl rounded-t-md border-2 border-blue-300 bg-slate-50 overflow-hidden shrink-0 shadow-inner" aria-label="{{ course.progress_percent }} percent complete">
+                                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-blue-700 via-blue-500 to-cyan-300 transition-all duration-700" style="height: {{ course.progress_percent }}%;"></div>
+                                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-5 h-2 rounded-b border-x border-b border-blue-300 bg-white"></div>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center gap-2"><span class="text-sm font-bold text-slate-700">Course progress</span><span class="text-sm font-black text-blue-700">{{ course.progress_percent }}%</span></div>
+                                    <div class="h-2 bg-slate-100 rounded-full overflow-hidden mt-2"><div class="h-full bg-blue-600 rounded-full" style="width: {{ course.progress_percent }}%"></div></div>
+                                    <p class="text-xs text-slate-500 mt-2">{{ course.completed_count }}/{{ course.topics|length }} chapters completed</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/student/view_course/{{ course._id }}" class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold transition">
+                            Open Course <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-6-6l6 6-6 6"/></svg>
+                        </a>
+                    </article>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="bg-white border border-slate-200 rounded-2xl p-10 text-center">
+                    <div class="w-12 h-12 rounded-xl bg-slate-50 border border-slate-200 text-slate-500 flex items-center justify-center mx-auto mb-3"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 5.5A2.5 2.5 0 016.5 3H20v16H6.5A2.5 2.5 0 014 16.5v-11zM4 16.5A2.5 2.5 0 016.5 14H20"/></svg></div>
+                    <h3 class="font-bold text-slate-900">No courses available yet</h3><p class="text-sm text-slate-500 mt-1">Your courses will appear here when they are published.</p>
+                </div>
+                {% endif %}
+            </section>
+
+            {% elif section == 'attendance' %}
+            <div class="max-w-5xl mx-auto space-y-6">
+                <div class="bg-gradient-to-r from-[#0d182e] via-[#10203d] to-[#162c52] rounded-2xl p-7 text-white shadow-sm">
+                    <p class="text-blue-200 text-sm font-semibold">ONLINE ATTENDANCE</p>
+                    <h3 class="text-2xl font-black mt-2">My Attendance</h3>
+                    <p class="text-slate-300 text-sm mt-2">Mark your attendance once per day and review your date-wise history.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5"><p class="text-slate-400 text-sm">Attendance percentage</p><p class="text-3xl font-black text-blue-300 mt-2">{{ data.percent }}%</p></div>
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5"><p class="text-slate-400 text-sm">Days marked present</p><p class="text-3xl font-black text-emerald-300 mt-2">{{ data.present_days }}</p></div>
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5"><p class="text-slate-400 text-sm">Tracked attendance dates</p><p class="text-3xl font-black text-white mt-2">{{ data.active_days }}</p></div>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <div><h4 class="text-lg font-bold text-white">Today's attendance</h4><p class="text-slate-400 text-sm mt-1">{{ data.today }}</p></div>
+                        {% if data.today_record and data.today_record.status == 'Present' %}
+                        <span class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-bold px-5 py-3 rounded-xl">✓ Marked Present</span>
+                        {% else %}
+                        <form action="/student/attendance/mark" method="POST"><button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-3 rounded-xl transition">Mark Attendance for Today</button></form>
+                        {% endif %}
+                    </div>
+                    <p class="text-xs text-slate-500 mt-3">Attendance is account-based and can be marked once per date. It does not verify physical presence.</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+                    <div class="p-5 border-b border-slate-800"><h4 class="font-bold text-white">Attendance History</h4></div>
+                    {% if data.attendance_records %}<div class="overflow-x-auto"><table class="w-full text-sm"><thead class="bg-slate-950 text-slate-400"><tr><th class="text-left p-4">Date</th><th class="text-left p-4">Marked at</th><th class="text-left p-4">Status</th></tr></thead><tbody class="divide-y divide-slate-800">{% for record in data.attendance_records %}<tr><td class="p-4 text-slate-200">{{ record.date }}</td><td class="p-4 text-slate-400">{{ record.marked_at or '—' }}</td><td class="p-4"><span class="px-3 py-1 rounded-full text-xs font-bold {% if record.status == 'Present' %}bg-emerald-500/10 text-emerald-300{% else %}bg-rose-500/10 text-rose-300{% endif %}">{{ record.status }}</span></td></tr>{% endfor %}</tbody></table></div>{% else %}<p class="p-6 text-slate-400 text-sm">No attendance records yet.</p>{% endif %}
+                </div>
+            </div>
+
+            {% elif section == 'messages' %}
+            <div class="max-w-5xl mx-auto space-y-6">
+                <div class="bg-gradient-to-r from-[#0d182e] via-[#10203d] to-[#162c52] rounded-2xl p-7 text-white"><p class="text-blue-200 text-sm font-semibold">STUDENT SUPPORT</p><h3 class="text-2xl font-black mt-2">Talk to Teacher</h3><p class="text-slate-300 text-sm mt-2">Send a question and check replies here.</p></div>
+                <form action="/student/messages/send" method="POST" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+                    <h4 class="font-bold text-white">Send a new message</h4>
+                    <div><label class="block text-sm text-slate-300 font-semibold mb-2">Subject</label><input name="subject" required maxlength="160" placeholder="e.g. Doubt in Python Chapter 4" class="w-full bg-slate-950 border border-slate-700 text-white rounded-xl p-3 focus:outline-none focus:border-blue-500"></div>
+                    <div><label class="block text-sm text-slate-300 font-semibold mb-2">Message</label><textarea name="body" required maxlength="5000" rows="4" placeholder="Explain your question..." class="w-full bg-slate-950 border border-slate-700 text-white rounded-xl p-3 focus:outline-none focus:border-blue-500"></textarea></div>
+                    <button class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-3 rounded-xl">Send Message</button>
+                </form>
+                <div class="space-y-4"><h4 class="font-bold text-white">My Conversations</h4>
+                    {% for message in data.messages %}
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-3">
+                        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3"><div><h5 class="text-white font-bold">{{ message.subject }}</h5><p class="text-xs text-slate-500 mt-1">Sent: {{ message.created_at }}</p></div><span class="self-start px-3 py-1 rounded-full text-xs font-bold {% if message.status == 'Replied' %}bg-emerald-500/10 text-emerald-300{% else %}bg-amber-500/10 text-amber-300{% endif %}">{{ message.status }}</span></div>
+                        <div class="bg-slate-950 border border-slate-800 rounded-xl p-4"><p class="text-xs text-blue-300 font-bold mb-1">YOUR MESSAGE</p><p class="text-slate-300 whitespace-pre-wrap">{{ message.body }}</p></div>
+                        {% if message.reply %}<div class="bg-blue-950/40 border border-blue-900 rounded-xl p-4"><p class="text-xs text-emerald-300 font-bold mb-1">TEACHER / ADMIN REPLY</p><p class="text-slate-200 whitespace-pre-wrap">{{ message.reply }}</p><p class="text-xs text-slate-500 mt-2">Updated: {{ message.updated_at }}</p></div>{% else %}<p class="text-sm text-slate-500">Awaiting reply.</p>{% endif %}
+                    </div>
+                    {% else %}<div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 text-center text-slate-400">You haven't sent any messages yet.</div>{% endfor %}
+                </div>
+            </div>
+
+            {% elif section == 'assignments' %}
+            <section class="bg-white border border-slate-200 rounded-2xl p-5 md:p-6 shadow-sm">
+                <div class="mb-6"><h2 class="text-xl font-bold text-slate-900">Assignments</h2><p class="text-sm text-slate-500 mt-1">Upload your work and review submissions in one place.</p></div>
+                <div class="flex border-b border-slate-200 mb-6 gap-6">
+                    <button type="button" onclick="switchTab('active-assign', 'completed-assign', this)" class="tab-btn pb-3 font-semibold text-sm text-blue-600 border-b-2 border-blue-600">Active Assignments</button>
+                    <button type="button" onclick="switchTab('completed-assign', 'active-assign', this)" class="tab-btn pb-3 font-semibold text-sm text-slate-500">Completed Assignments</button>
+                </div>
+                <div id="active-assign" class="space-y-4">
+                    {% if data.active_assignments %}
+                        {% for item in data.active_assignments %}
+                        <article class="bg-white border border-slate-200 rounded-xl p-5 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5 hover:shadow-sm transition">
+                            <div class="min-w-0">
+                                <span class="text-[11px] bg-blue-50 text-blue-700 border border-blue-100 font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">{{ item.course_title }}</span>
+                                <h3 class="font-bold text-base text-slate-900 mt-3">{{ item.title }}</h3>
+                                <p class="text-slate-500 text-sm mt-1">{{ item.desc }}</p>
+                                <p class="text-xs text-slate-500 mt-2">Maximum marks: <span class="font-semibold text-slate-700">{{ item.total_marks }}</span></p>
+                            </div>
+                            <form action="/student/submit_assignment/{{ item.course_id }}/{{ item.assign_idx }}" method="POST" enctype="multipart/form-data" class="w-full xl:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-3 bg-slate-50 border border-slate-200 p-3 rounded-xl">
+                                <input type="file" name="file" required class="min-w-0 text-xs text-slate-600 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+                                <button type="submit" class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl font-semibold text-sm transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 16V4m0 0L7 9m5-5l5 5M5 14v5h14v-5"/></svg>Upload</button>
+                            </form>
+                        </article>
+                        {% endfor %}
+                    {% else %}
+                    <div class="border border-dashed border-slate-300 rounded-xl p-8 text-center"><p class="font-semibold text-slate-700">No active assignments</p><p class="text-sm text-slate-500 mt-1">You are all caught up for now.</p></div>
+                    {% endif %}
+                </div>
+                <div id="completed-assign" class="space-y-4 hidden">
+                    {% if data.completed_assignments %}
+                        {% for item in data.completed_assignments %}
+                        <article class="bg-white border border-slate-200 rounded-xl p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                            <div class="min-w-0"><span class="text-[11px] bg-blue-50 text-blue-700 border border-blue-100 font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">{{ item.course_title }}</span><h3 class="font-bold text-base text-slate-900 mt-3">{{ item.title }}</h3><p class="text-slate-500 text-sm mt-1">{{ item.desc }}</p></div>
+                            <span class="inline-flex items-center gap-2 self-start sm:self-center bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold px-3 py-2 rounded-xl text-xs"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Submitted</span>
+                        </article>
+                        {% endfor %}
+                    {% else %}
+                    <div class="border border-dashed border-slate-300 rounded-xl p-8 text-center"><p class="font-semibold text-slate-700">No completed assignments</p><p class="text-sm text-slate-500 mt-1">Your submitted work will be listed here.</p></div>
+                    {% endif %}
+                </div>
+            </section>
+
+            {% elif section == 'quizzes' %}
+            <section class="bg-white border border-slate-200 rounded-2xl p-5 md:p-6 shadow-sm">
+                <div class="mb-6"><h2 class="text-xl font-bold text-slate-900">Quizzes</h2><p class="text-sm text-slate-500 mt-1">Take available quizzes and check which assessments you have completed.</p></div>
+                <div class="flex border-b border-slate-200 mb-6 gap-6">
+                    <button type="button" onclick="switchTab('active-quiz', 'completed-quiz', this)" class="tab-btn pb-3 font-semibold text-sm text-blue-600 border-b-2 border-blue-600">Active Quizzes</button>
+                    <button type="button" onclick="switchTab('completed-quiz', 'active-quiz', this)" class="tab-btn pb-3 font-semibold text-sm text-slate-500">Completed Quizzes</button>
+                </div>
+                <div id="active-quiz" class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                    {% if data.active_quizzes %}
+                        {% for q in data.active_quizzes %}
+                        <article class="bg-white border border-slate-200 rounded-xl p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 hover:shadow-sm transition">
+                            <div class="min-w-0"><span class="text-[11px] bg-blue-50 text-blue-700 border border-blue-100 font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">{{ q.course_title }}</span><h3 class="font-bold text-base text-slate-900 mt-3">{{ q.quiz_title }}</h3><p class="text-slate-500 text-xs mt-2">{{ q.questions_count }} questions <span class="mx-1">·</span> Maximum marks: {{ q.total_marks }}</p></div>
+                            <a href="/student/take_quiz/{{ q.course_id }}/{{ q.quiz_index }}" class="inline-flex items-center justify-center gap-2 shrink-0 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl font-semibold text-sm transition">Start Quiz<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-6-6l6 6-6 6"/></svg></a>
+                        </article>
+                        {% endfor %}
+                    {% else %}
+                    <div class="xl:col-span-2 border border-dashed border-slate-300 rounded-xl p-8 text-center"><p class="font-semibold text-slate-700">No active quizzes</p><p class="text-sm text-slate-500 mt-1">New quizzes will appear here.</p></div>
+                    {% endif %}
+                </div>
+                <div id="completed-quiz" class="grid grid-cols-1 xl:grid-cols-2 gap-4 hidden">
+                    {% if data.completed_quizzes %}
+                        {% for q in data.completed_quizzes %}
+                        <article class="bg-white border border-slate-200 rounded-xl p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                            <div class="min-w-0"><span class="text-[11px] bg-blue-50 text-blue-700 border border-blue-100 font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">{{ q.course_title }}</span><h3 class="font-bold text-base text-slate-900 mt-3">{{ q.quiz_title }}</h3><p class="text-slate-500 text-xs mt-2">{{ q.questions_count }} questions</p></div>
+                            <span class="inline-flex items-center gap-2 self-start sm:self-center bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold px-3 py-2 rounded-xl text-xs"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Completed</span>
+                        </article>
+                        {% endfor %}
+                    {% else %}
+                    <div class="xl:col-span-2 border border-dashed border-slate-300 rounded-xl p-8 text-center"><p class="font-semibold text-slate-700">No completed quizzes yet</p><p class="text-sm text-slate-500 mt-1">Completed assessments will show up here.</p></div>
+                    {% endif %}
+                </div>
+            </section>
+
+            {% elif section == 'marks' %}
+            <section>
+                <div class="mb-6"><h2 class="text-xl font-bold text-slate-900">Marks &amp; Performance Report</h2><p class="text-sm text-slate-500 mt-1">Review your quiz results and assignment grades.</p></div>
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                    <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
+                        <div class="flex items-center gap-3 pb-4 mb-4 border-b border-slate-100"><div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 19V9m5 10V5m5 14v-7m5 7V3"/></svg></div><div><h3 class="font-bold text-slate-900">Quiz Scores</h3><p class="text-xs text-slate-500">Your assessment results</p></div></div>
+                        {% if data.quizzes %}<div class="space-y-3">{% for quiz in data.quizzes %}<div class="p-4 bg-slate-50 border border-slate-200 rounded-xl flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3"><div class="min-w-0"><span class="text-[11px] font-bold text-blue-700 uppercase block mb-1">{{ quiz.course_title }}</span><span class="font-semibold text-slate-800 text-sm">{{ quiz.quiz_title }}</span><p class="text-xs text-slate-500 mt-1">{{ quiz.status_label }}</p></div><span class="{{ quiz.badge_color }} font-bold px-3 py-1.5 rounded-lg text-sm whitespace-nowrap">{{ quiz.score }} / {{ quiz.max_marks }}</span></div>{% endfor %}</div>{% else %}<p class="text-sm text-slate-500 bg-slate-50 border border-dashed border-slate-300 rounded-xl p-5">No quiz records found yet.</p>{% endif %}
+                    </div>
+                    <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
+                        <div class="flex items-center gap-3 pb-4 mb-4 border-b border-slate-100"><div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 4h8l3 3v13H5V4h3zM14 4v4h5M8 12h8M8 16h5"/></svg></div><div><h3 class="font-bold text-slate-900">Assignment Grades</h3><p class="text-xs text-slate-500">Your submitted work</p></div></div>
+                        {% if data.submissions %}<div class="space-y-3">{% for sub in data.submissions %}<div class="p-4 bg-slate-50 border border-slate-200 rounded-xl flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3"><div class="min-w-0"><span class="text-[11px] font-bold text-blue-700 uppercase block mb-1">{{ sub.course_title }}</span><span class="font-semibold text-slate-800 text-sm">{{ sub.assign_title }}</span>{% if sub.marks is not none %}<p class="text-xs text-slate-500 mt-1">{{ sub.status_label }}</p>{% endif %}</div>{% if sub.marks is not none %}<span class="{{ sub.badge_color }} font-bold px-3 py-1.5 rounded-lg text-sm whitespace-nowrap">{{ sub.marks }} / {{ sub.max_marks }}</span>{% else %}<span class="bg-amber-50 text-amber-700 border border-amber-200 font-semibold px-3 py-1.5 rounded-lg text-xs whitespace-nowrap">Pending review</span>{% endif %}</div>{% endfor %}</div>{% else %}<p class="text-sm text-slate-500 bg-slate-50 border border-dashed border-slate-300 rounded-xl p-5">No assignment records found yet.</p>{% endif %}
+                    </div>
+                </div>
+            </section>
+
+            {% elif section == 'prepare' %}
+            <section class="max-w-4xl mx-auto bg-white border border-slate-200 p-5 md:p-8 rounded-2xl shadow-sm">
+                <div class="flex items-start gap-3 mb-6"><div class="w-11 h-11 rounded-xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center shrink-0"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3a6 6 0 00-3.8 10.64c.8.65 1.3 1.34 1.3 2.36h5c0-1.02.5-1.71 1.3-2.36A6 6 0 0012 3zM9.5 19h5M10.5 22h3"/></svg></div><div><h2 class="text-xl font-bold text-slate-900">AI Doubt Solver &amp; Tutor</h2><p class="text-slate-500 text-sm mt-1">Choose a course and ask a question. Conversation history is saved for each course.</p></div></div>
+                {% if data.courses %}
+                <div class="space-y-4">
+                    <div><label for="ai-course-select" class="font-semibold text-slate-700 text-sm block mb-2">Select Course</label><select id="ai-course-select" onchange="loadChatHistory()" class="w-full bg-white border border-slate-200 text-slate-800 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-600">{% for c in data.courses %}<option value="{{ c._id }}">{{ c.title }}</option>{% endfor %}</select></div>
+                    <div id="chat-box" class="h-96 bg-slate-50 border border-slate-200 rounded-xl p-4 overflow-y-auto space-y-3 flex flex-col" aria-live="polite"><div class="bg-white text-slate-600 border border-slate-200 p-3 rounded-xl max-w-[85%] self-start text-sm">Hello! Ask a question about your selected course.</div></div>
+                    <form id="ai-chat-form" class="flex flex-col sm:flex-row gap-3" onsubmit="submitAiChat(event)"><input type="text" id="ai-question" placeholder="Type your question here..." autocomplete="off" class="flex-1 min-w-0 bg-white border border-slate-200 text-slate-800 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-600"><button type="submit" class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12l14-7-5 14-2-6-7-1z"/></svg>Ask AI</button></form>
+                </div>
+                {% else %}<div class="bg-slate-50 border border-dashed border-slate-300 rounded-xl p-8 text-center"><p class="font-semibold text-slate-700">No courses available</p><p class="text-sm text-slate-500 mt-1">A course must be available before you can use the AI Tutor.</p></div>{% endif %}
+            </section>
+
+            <script>
+                function addChatMessage(sender, text) {
+                    const chatBox = document.getElementById('chat-box');
+                    const bubble = document.createElement('div');
+                    bubble.className = sender === 'user'
+                        ? 'bg-blue-600 text-white p-3 rounded-xl max-w-[85%] self-end text-sm font-medium whitespace-pre-wrap break-words'
+                        : 'bg-white text-slate-700 border border-slate-200 p-3 rounded-xl max-w-[85%] self-start text-sm whitespace-pre-wrap break-words';
+                    bubble.textContent = text;
+                    chatBox.appendChild(bubble);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                    return bubble;
+                }
+
+                async function loadChatHistory() {
+                    const select = document.getElementById('ai-course-select');
+                    const chatBox = document.getElementById('chat-box');
+                    if (!select || !chatBox || !select.value) return;
+                    chatBox.replaceChildren();
+                    const loading = addChatMessage('ai', 'Loading conversation history...');
+                    try {
+                        const res = await fetch(`/student/get_chat_history/${encodeURIComponent(select.value)}`);
+                        if (!res.ok) throw new Error('Could not load chat history');
+                        const history = await res.json();
+                        chatBox.replaceChildren();
+                        if (!history.length) addChatMessage('ai', 'Hello! Ask a question about your selected course.');
+                        history.forEach(chat => addChatMessage(chat.sender === 'user' ? 'user' : 'ai', chat.text || ''));
+                    } catch (error) {
+                        loading.textContent = 'Could not load chat history. Please try again.';
+                    }
+                }
+
+                function submitAiChat(event) {
+                    event.preventDefault();
+                    askAITutor();
+                }
+
+                async function askAITutor() {
+                    const select = document.getElementById('ai-course-select');
+                    const questionInput = document.getElementById('ai-question');
+                    const chatBox = document.getElementById('chat-box');
+                    if (!select || !select.value || !questionInput || !chatBox) return;
+                    const question = questionInput.value.trim();
+                    if (!question) return;
+                    addChatMessage('user', question);
+                    questionInput.value = '';
+                    const loading = addChatMessage('ai', 'AI is preparing a response...');
+                    loading.classList.add('animate-pulse');
+                    const formData = new FormData();
+                    formData.append('course_id', select.value);
+                    formData.append('question', question);
+                    try {
+                        const res = await fetch('/student/ai_chat', { method: 'POST', body: formData });
+                        const data = await res.json();
+                        if (!res.ok) throw new Error('AI service request failed');
+                        loading.classList.remove('animate-pulse');
+                        loading.textContent = data.response || 'No response was returned.';
+                    } catch (error) {
+                        loading.classList.remove('animate-pulse');
+                        loading.textContent = 'Unable to reach the AI service right now. Please try again.';
+                    }
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }
+                document.addEventListener('DOMContentLoaded', () => {
+                    if (document.getElementById('ai-course-select')) loadChatHistory();
+                });
+            </script>
+
+            {% elif section == 'study_plan' %}
+            <section class="max-w-3xl mx-auto bg-white border border-slate-200 p-5 md:p-8 rounded-2xl shadow-sm">
+                <div class="flex items-start gap-3 mb-6"><div class="w-11 h-11 rounded-xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center shrink-0"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 3h8l4 4v14H5V3h2zM14 3v5h5M8 12h8M8 16h5"/></svg></div><div><h2 class="text-xl font-bold text-slate-900">AI Study Plan Generator</h2><p class="text-slate-500 text-sm mt-1">Create a structured study roadmap for your exams, assignments, or viva preparation.</p></div></div>
+                <form action="/student/generate_study_plan" method="POST" class="space-y-6">
+                    <div><label for="goal" class="font-semibold text-slate-700 text-sm block mb-2">1. What is your goal?</label><input id="goal" type="text" name="goal" required placeholder="e.g. Semester exam, Python viva" class="w-full bg-white border border-slate-200 text-slate-800 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-600"></div>
+                    <div><p class="font-semibold text-slate-700 text-sm mb-2">2. Select Courses</p>
+                        {% if data.courses %}<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-4 rounded-xl border border-slate-200">{% for c in data.courses %}<label class="flex items-center gap-3 cursor-pointer bg-white border border-slate-200 rounded-lg px-3 py-3 hover:border-blue-300 transition"><input type="checkbox" name="courses" value="{{ c._id }}" class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-600"><span class="font-semibold text-slate-700 text-sm">{{ c.title }}</span></label>{% endfor %}</div>{% else %}<p class="text-sm text-slate-500 bg-slate-50 border border-slate-200 rounded-xl p-4">No courses are available to select yet.</p>{% endif %}
+                    </div>
+                    <div><label for="duration" class="font-semibold text-slate-700 text-sm block mb-2">3. Time Duration</label><select id="duration" name="duration" class="w-full bg-white border border-slate-200 text-slate-800 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-600 font-medium"><option value="1 Day">1 Day (hour-wise schedule)</option><option value="1 Week">1 Week (day-wise schedule)</option><option value="2 Weeks">2 Weeks (day-wise schedule)</option><option value="1 Month">1 Month (week-wise schedule)</option></select></div>
+                    <button type="submit" class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3.5 rounded-xl font-semibold transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v3m0 12v3M4.22 4.22l2.12 2.12m11.32 11.32l2.12 2.12M3 12h3m12 0h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12M8 16l8-8"/></svg>Generate Study Plan</button>
+                </form>
+            </section>
+            {% endif %}
+        </div>
+    </main>
+
+    <script>
+        function switchTab(showId, hideId, btn) {
+            const showPanel = document.getElementById(showId);
+            const hidePanel = document.getElementById(hideId);
+            if (!showPanel || !hidePanel || !btn) return;
+            showPanel.classList.remove('hidden');
+            hidePanel.classList.add('hidden');
+            document.querySelectorAll('.tab-btn').forEach(button => {
+                button.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600');
+                button.classList.add('text-slate-500');
+            });
+            btn.classList.remove('text-slate-500');
+            btn.classList.add('font-semibold', 'text-sm', 'text-blue-600', 'border-b-2', 'border-blue-600');
+        }
+    </script>
+</body>
+</html>
