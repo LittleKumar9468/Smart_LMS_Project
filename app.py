@@ -677,6 +677,7 @@ def student_ai_chat():
         response = ai_model.generate_content(prompt)
         ai_reply = response.text.strip()
     except Exception as e:
+        print(f"AI Tutor Error: {e}")
         ai_reply = "Unable to reach AI service right now. Please try again in a moment."
 
     chat_history_collection.insert_one({
