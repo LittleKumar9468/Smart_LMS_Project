@@ -37,6 +37,7 @@ if not API_KEY:
     print("WARNING: GEMINI_API_KEY is missing!")
 genai.configure(api_key=API_KEY)
 ai_model = genai.GenerativeModel('gemini-3.1-flash-lite')
+tutor_model = genai.GenerativeModel('gemini-3.5-flash-lite')
 
 @app.after_request
 def fix_broken_markdown_links(response):
@@ -674,7 +675,7 @@ def student_ai_chat():
     Student Question: {question}
     """
     try:
-        response = ai_model.generate_content(prompt)
+        response = tutor_model.generate_content(prompt)
         ai_reply = response.text.strip()
     except Exception as e:
         print(f"AI Tutor Error: {e}")
